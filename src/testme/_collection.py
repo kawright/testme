@@ -19,14 +19,19 @@ class Collection(testme.Test):
     
     #: Create a new collection with a given id and name, and optional reason.
     #:
+    #: This collection has no information about the ids of other 
+    #: tests/collections in the suite. It is the responsibility of the user to 
+    #: ensure id uniqueness if they choose to use this constructor directly. 
+    #:
     #: When todo is true, the collection will be given the todo status. This
     #: affects only the collection itself, not the tests it does/will contain.
+    #: Todo behavior is otherwise the same as it is with tests.
     #:
     #: Pass a mapping of keywords-to-values to env in order to pass them in as 
     #: keyword-arguments to each test run in this collection.
     #:
-    #: The indentation level for formatted representations of this object can
-    #: be set with indent. This behavior is format-dependent.
+    #: The indent argument behaves in the same manner as with the constructor
+    #: for the test class.
     def __init__(self, id:int, name:str, todo:bool=False, 
             reason:Optional[str]=None, env:Optional[dict]=None,
             indent:int=4) -> None:
@@ -50,8 +55,8 @@ class Collection(testme.Test):
         self._iter_state += 1
         return ret_data
 
-    #: The string representation of this class is a plain-text report of the
-    #: status of the collection.
+    #: The string representation of this class is a plain-text report of each
+    #: test run, followed by a one-line summary of the entire collection.
     def __repr__(self) -> str:
         ret_data = f"{super().__repr__()}\n"
         for test in self._tests:

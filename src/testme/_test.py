@@ -11,9 +11,27 @@ from collections.abc import Callable
 import json
 from typing import Any, Optional
 
-
+#: This class represents the smallest unit of concern in the testme framework:
+#: a single test run. 
 class Test:
 
+    #: Create a new instance of this class with given name and id, and optional
+    #: reason.
+    #:
+    #: This test has no information about the ids of other tests/collections
+    #: in the suite. It is the responsibility of the user to ensure id
+    #: uniqueness if they choose to use this constructor directly.
+    #:
+    #: Giving the todo option marks this test as a todo item, meaning its
+    #: outcome will not affect the suite/collection that contains it. A test's
+    #: result status is invariant once it is set to todo.
+    #:
+    #: Pass a positional-argument list to call_args, and/or a keyword-argument
+    #: dict to call_kwargs to pass them to the test-function when the test
+    #: is run.
+    #:
+    #: The indentation level for formatted representations of this object can
+    #: be set with indent. This behavior is format-dependent.
     def __init__(self, id:int, name:str, test:Callable, todo:bool=False, 
             reason:Optional[str]=None, call_args:list=[],
             call_kwargs:dict={}, indent:int=4) -> None:
@@ -32,6 +50,8 @@ class Test:
         self._residue = None
         self._indent = indent
 
+    #: The string representation of this class is a plain-text report of this
+    #: status run.
     def __repr__(self) -> str:
         if self.passed:
             pass_str = "[x]"
@@ -56,48 +76,63 @@ class Test:
     def __call__(self) -> bool:
         return self.run()
 
+    #: The id of this test. Read-only.
     @property
     def id(self) -> int:
         return self._id
 
+    #: The name of this test. Read-only.
     @property
     def name(self) -> str:
         return self._name
 
+    #: True if this test was/will-be skipped. Read-only.
     @property
     def skipped(self) -> bool:
         return self._skipped
 
+    #: True if this test is a todo item. Read-only.
     @property
     def todo(self) -> bool:
         return self._todo
 
+    #: True once the test function has been called. Read-only.
     @property
     def ran(self) -> bool:
         return self._ran
 
+    #: True if the test function was called and returned. Read-only.
     @property
     def passed(self) -> bool:
         return self._passed
 
+    #: An optional summary of this test. Read-only.
     @property
     def reason(self) -> str:
         if not self.ran:
             return None
         return self._reason
 
+    #: If an exception is raised while the test function executes (aside from 
+    #: AssertFail or Abort), this property will contain a reference to it.
+    #: Otherwise, it is none. Read-only.
     @property
     def exception(self) -> Optional[Exception]:
         return self._exception
 
+    #: The result of this test. This will be TestResult.WAIT until the test
+    #: is run. Read-only.
     @property
     def result(self) -> testme.TestResult:
         return self._result
 
+    #: The return value of the test function. For reporting purposes. Read-only.
     @property
     def residue(self) -> Any:
         return self._residue
 
+    #: A dictionary representation of this test. Schematically identical
+    #: to the output of the json property. Read-only.
     @property
     def dict(self) -> dict:
         clean_args = []
@@ -118,10 +153,13 @@ class Test:
             "subtests": None
         }
 
+    #: A json representation of this test. This instance's indent property
+    #: is used to set the indentation of this value.
     @property
     def json(self) -> str:
         return json.dumps(self.dict, indent=self._indent)
 
+    #: A TAP14 compliant test-point generated from this test.
     @property
     def tap(self) -> str:
         if self.result is testme.TestResult.ABRT:
@@ -152,6 +190,7 @@ class Test:
             ret_data += f" ({self.reason})"
         return ret_data
 
+    #: Skip this test with an optional reason. The test will not be run.
     def skip(self, reason:Optional[str]=None) -> None:
         if self.ran:
             raise RuntimeException("Test already ran")
@@ -159,12 +198,38 @@ class Test:
             raise RuntimeException("Test already skipped")
         self._skipped = True
         self._reason = reason
-        self._result = testme.TestResult.SKIP
 
+    #: Run this test by calling the test function. If call_args or call_kwargs
+    #: were given at construction, the test function will be called with them.
+    #: The return value will be saved as this instance's residue property.
+    #:
+    #: The test will pass unless it raises an exception. If an exception is
+    #: raised, it will be caught and handled as such:
+    #:
+    #: * If it is an instance of Abort, the result of this test will be set
+    #:   to TestResult.ABRT and the exception will be reraised to eventually
+    #:   be handled by the root suite object.
+    #: * If it is an instance of AssertFail, the result will be set to
+    #:   TestResult.FAIL. This should be considered a "formal" failure by the
+    #:   user.
+    #: * Otherwise the exception itself is stored as this instance's
+    #:   exception property, and processing proceeds as with AssertFail. This
+    #:   should be considered an unexpected failure by the user.
+    #:
+    #: If skip is true, the status will be updated to TestResult.SKIP and this
+    #: function will immediately return without calling the test function. If
+    #: todo is true, the test will be run and the outcome recorded, but the
+    #: status will be set to TestResult.TO_DO without regard to said outcome.
+    #:
+    #: A test can only be run once. Calling for a second or subsequent times
+    #: raises RuntimeError.
+    #:
+    #: Returns the new result property of the instance.
     def run(self) -> testme.TestResult:
         if self.ran:
-            raise RuntimeException("Test already ran")
+            raise RuntimeError("Test already ran")
         if self.skipped:
+            self._result = testme.TestResult.SKIP
             return self._result
         try:
             self._passed = True
