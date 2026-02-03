@@ -7,6 +7,9 @@
 
 import enum
 
+#: Used by the AssertFail exception to indicate which type of assertion
+#: triggered the failure. Member values are the same as their name, forced to
+#: lowercase.
 class AssertType(enum.StrEnum):
     TRUE = enum.auto()
     FALSE = enum.auto()
@@ -45,6 +48,7 @@ class AssertType(enum.StrEnum):
     FASTER = enum.auto()
     SLOWER = enum.auto()
 
+#: Indicates the result/status of a test run.
 class TestResult(enum.StrEnum):
     PASS = enum.auto()
     FAIL = enum.auto()
