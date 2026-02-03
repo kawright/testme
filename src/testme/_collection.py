@@ -11,8 +11,22 @@ from collections.abc import Callable
 import textwrap
 from typing import Any, List, Optional, Tuple
 
+#: A Collection is a type of test which contains other tests, allowing test
+#: suites to be nested.
+#:
+#: This class implements the iterator and length interfaces.
 class Collection(testme.Test):
     
+    #: Create a new collection with a given id and name, and optional reason.
+    #:
+    #: When todo is true, the entire collection will be given the todo status, 
+    #: meaning all of its tests will also be marked todo.
+    #:
+    #: Pass a mapping of keywords-to-values to env in order to pass them in as 
+    #: keyword-arguments to each test run in this collection.
+    #:
+    #: The indentation level for formatted representations of this object can
+    #: be set with indent. This behavior is format-dependent.
     def __init__(self, id:int, name:str, todo:bool=False, 
             reason:Optional[str]=None, env:Optional[dict]=None,
             indent:int=4) -> None:
@@ -27,6 +41,8 @@ class Collection(testme.Test):
     def __iter__(self) -> "Collection":
         return self
 
+    #: Successive iterations of this class yield the next test in the 
+    #: collection.
     def __next__(self) -> testme.Test:
         if self._iter_state >= len(self):
             raise StopIteration
@@ -34,6 +50,8 @@ class Collection(testme.Test):
         self._iter_state += 1
         return ret_data
 
+    #: The string representation of this class is a plain-text report of the
+    #: status of the collection.
     def __repr__(self) -> str:
         ret_data = f"{super().__repr__()}\n"
         for test in self._tests:
@@ -47,6 +65,8 @@ class Collection(testme.Test):
         ret_data += f"{len(self)} TOTAL>>\n"
         return ret_data
 
+    #: The length of this class is the number of nested tests it contains
+    #: (not including collections themselves).
     def __len__(self) -> int:
         ret_data = 0
         for test in self._tests:
@@ -55,7 +75,8 @@ class Collection(testme.Test):
             else:
                 ret_data += 1
         return ret_data
-   
+  
+    #: The number of tests in the collection with the pass status. Read-only.
     @property
     def passed_count(self) -> int:
         ret_data = 0
@@ -66,6 +87,7 @@ class Collection(testme.Test):
                 ret_data += 1
         return ret_data
 
+    #: The number of tests in the collection with the fail status. Read-only.
     @property
     def failed_count(self) -> int:
         ret_data = 0
@@ -76,6 +98,7 @@ class Collection(testme.Test):
                 ret_data += 1
         return ret_data
 
+    #: The number of tests in the collection with the skip status. Read-only.
     @property
     def skipped_count(self) -> int:
         ret_data = 0
@@ -86,6 +109,7 @@ class Collection(testme.Test):
                 ret_data += 1
         return ret_data
 
+    #: The number of tests in the collection with the todo status. Read-only.
     @property
     def todo_count(self) -> int:
         ret_data = 0
@@ -96,6 +120,7 @@ class Collection(testme.Test):
                 ret_data += 1
         return ret_data
 
+    #: The number of tests in the collection with the wait status. Read-only.
     @property
     def waiting_count(self) -> int:
         ret_data = 0
@@ -106,6 +131,7 @@ class Collection(testme.Test):
                 ret_data += 1
         return ret_data
 
+    #: The number of tests in the collection with the aborted status. Read-only.
     @property
     def aborted_count(self) -> int:
         ret_data = 0
@@ -116,6 +142,8 @@ class Collection(testme.Test):
                 ret_data += 1
         return ret_data
 
+    #: A dictionary representation of this collection. Schematically identical
+    #: to the output of the json property. Read-only.
     @property
     def dict(self) -> str:
         ret_data = super().dict
@@ -133,6 +161,7 @@ class Collection(testme.Test):
         }
         return ret_data
 
+    #: A TAP14 compliant representation of this collection. Read-only.
     @property
     def tap(self) -> str:
         ret_data = f"# Subtest: {self.name}()\n"
@@ -157,6 +186,19 @@ class Collection(testme.Test):
         self._residue = temp_residue
         return ret_data
 
+    #: Create a new test from a given function and add it to this collection. 
+    #: The name of the new test will be set to the name of the test function,
+    #: and it may be given an optional reason.
+    #:
+    #: When todo is true, the new test will be given the todo status.
+    #:
+    #: Pass in a positional arguments list to call_args, and/or a keyword
+    #: arguments dictionary to call_kwargs to pass those arguments into
+    #: the test function when it is called, like 
+    #: ``func(*call_args, **call_kwargs)``. The arguments in call_kwargs will 
+    #: override any colliding arguments in this collection's call-environment
+    #: (the optional dictionary passed into the env argument of the 
+    #: constructor).
     def add_test(self, func:Callable, todo:bool=False, 
             reason:Optional[str]=None, call_args:list=[], 
             call_kwargs:dict={}) -> None:
@@ -166,6 +208,15 @@ class Collection(testme.Test):
         self._next_child_id += 1
         self._tests.append(test_obj)
 
+    #: Create a new test collection and add it to this collection with an 
+    #: optional reason. The new collection will be added to this collection's
+    #: namespace under the passed-in name. 
+    #:
+    #: The todo and env arguments behave as they do with the constructor. 
+    #:
+    #: The inherit_env option can be given to pass this collection's
+    #: call-environment to the new collection. This option overrides the env
+    #: argument.
     def collection(self, name:str, todo:bool=False, 
             reason:Optional[str]=None, env:Optional[dict]=None,
             inherit_env:bool=False) -> None:
@@ -179,6 +230,13 @@ class Collection(testme.Test):
         self._tests.append(collection_obj)
         setattr(self, name, collection_obj)
 
+    #: Decorate a function to be used for a new test which will be added to this
+    #: collection. The arguments passed into the decorator will be passed into
+    #: the test function when the test is run. They will override any
+    #: conflicting arguments in this collection's call-environment.
+    #:
+    #: The decorated function is return unaltered, such that this decorator
+    #: can be stacked to easily implement parameterized tests.
     def test(self, *args, **kwargs) -> Callable:
         def wrapper(func:Callable) -> Callable:
             test_name = func.__name__
@@ -189,6 +247,12 @@ class Collection(testme.Test):
             return func
         return wrapper
 
+    #: Decorate a function to be used to create multiple tests, all of which
+    #: will be added to this collection. One test will be created for each
+    #: element in the call_tuples argument, which is a list of 2-tuples
+    #: carrying the positional-argument list and keyword-argument dictionary
+    #: that will be passed into the decorated function for each test run, like
+    #: ``func(*call_tuple[0], **call_tuple[1])``.
     def test_many(self, call_tuples:List[Tuple[list, dict]]) -> Callable:
         def wrapper(func:Callable) -> Callable:
             test_name = func.__name__
@@ -200,6 +264,8 @@ class Collection(testme.Test):
             return func
         return wrapper
 
+    #: Decorate a function to be used to create a new test, in the same manner
+    #: as the test decorator. The test will be marked todo when it is created.
     def todo(self, *args, **kwargs) -> Callable:
         def wrapper(func:Callable) -> Callable:
             test_name = func.__name__
@@ -210,6 +276,8 @@ class Collection(testme.Test):
             return func
         return wrapper
 
+    #: Decorate a function to be used to create a new test, in the same manner
+    #: as the test decorator. The test will be marked skip when it is created.
     def skip(self, *args, **kwargs) -> Callable:
         def wrapper(func:Callable) -> Callable:
             test_name = func.__name__
@@ -221,18 +289,32 @@ class Collection(testme.Test):
             return func
         return wrapper
 
+    #: Decorate a function to be used as a set-up function for this collection.
+    #: It will be called, without arguments, once on each test run, immediately
+    #: before the test function is called.
+    #:
+    #: The decorated function is returned unaltered.
     def set_up(self) -> Callable:
         def wrapper(func:Callable) -> Callable:
             self._set_up = func
             return func
         return wrapper
 
+    #: Decorate a function to be used as a tear-down function for this 
+    #: collection. It will be called, without arguments, once on each test run,
+    #: immediately after the test function returns.
+    #:
+    #: The decorated function is returned unaltered.
     def tear_down(self) -> Callable:
         def wrapper(func:Callable) -> Callable:
             self._tear_down = func
             return func
         return wrapper
 
+    #: Run this test collection. Each test/collection will be run in the order
+    #: they were added. If any test fails, this collection will be marked as a
+    #: fail; otherwise it is a pass (unless the collection is marked todo, in
+    #: which case the status of the test will remain todo).
     def run(self) -> testme.TestResult:
         if self._ran:
             raise RuntimeError("Test collection already run")
