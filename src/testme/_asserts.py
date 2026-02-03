@@ -7,7 +7,9 @@
 
 import testme
 
-from typing import Any, Optional
+from contextlib import contextmanager
+from numbers import Number
+from typing import Any, Container, Optional, Type
 
 def assert_true(expression:Any, reason:Optional[str]=None) -> None:
     if reason is None:
@@ -217,3 +219,55 @@ def assert_outside_range(min:Number, max:Number, expression:Number,
         reason = f"{expression} is not between {min} and {max}"
     if not ((expression >= min) and (expression <= max)):
         raise testme.AssertFail(testme.AssertType.OUTSIDE_RANGE, reason)
+
+@contextmanager
+def assert_raises(ex_type:Type=Exception, reason:Optional[str]=None) -> None:
+    if reason is None:
+        reason = f"{ex_type} is raised"
+    raised = False
+    try:
+        yield
+    except Exception as err:
+        if isinstance(err, ex_type):
+            raised = True
+    finally:
+        if not raised:
+            raise testme.AssertFail(testme.AssertType.RAISES, reason)
+
+@contextmanager
+def assert_does_not_raise(ex_type:Type=Exception, 
+        reason:Optional[str]=None) -> None:
+    if reason is None:
+        reason = f"{ex_type} is not raised"
+    raised = False
+    try:
+        yield
+    except Exception as err:
+        if isinstance(err, ex_type):
+            raised = True
+    finally:
+        if raised:
+            raise testme.AssertFail(testme.AssertType.DOES_NOT_RAISE, reason)
+
+@contextmanager
+def assert_faster(nanos:int, reason:Optional[str]=None) -> None:
+    start = time.time_ns()
+    yield
+    end = time.time_ns()
+    if reason is None:
+        reason = f"Code block will finish in less than {nanos} ns " \
+            f"(took {end - start} ns)"
+    if (end - start >= nanos):
+        raise testme.AssertFail(testme.AssertType.FASTER, reason)
+
+@contextmanager
+def assert_slower(nanos:int, reason:Optional[str]=None) -> None:
+    start = time.time_ns()
+    yield
+    end = time.time_ns()
+    if reason is None:
+        reason = f"Code block will finish in more than {nanos} ns " \
+            f"(took {end - start} ns)"
+    if (end - start <= nanos):
+        raise testme.AssertFail(testme.AssertType.SLOWER, reason)
+

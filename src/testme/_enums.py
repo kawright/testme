@@ -5,6 +5,8 @@
 # Copyright (C) 2026  Kristoffer A Wright
 # See 'LICENSE' for details
 
+import enum
+
 class AssertType(enum.StrEnum):
     TRUE = enum.auto()
     FALSE = enum.auto()

@@ -8,8 +8,8 @@
 import testme
 
 from collections.abc import Callable
-imoprt textwrap
-from typing import Any, Optional, Tuple
+import textwrap
+from typing import Any, List, Optional, Tuple
 
 class Collection(testme.Test):
     

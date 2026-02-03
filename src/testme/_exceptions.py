@@ -28,7 +28,7 @@ class AssertFail(Exception):
         return self._reason
 
     @property
-    def assert_type(self) -> AssertType:
+    def assert_type(self) -> testme.AssertType:
         return self._assert_type
 
 class Abort(Exception):

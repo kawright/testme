@@ -9,7 +9,7 @@ import testme
 
 from collections.abc import Callable
 import json
-from typing import Optional
+from typing import Any, Optional
 
 class Test:
 

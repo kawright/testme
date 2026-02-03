@@ -9,7 +9,7 @@ import testme
 
 from typing import Optional
 
-class Suite(Collection):
+class Suite(testme.Collection):
 
     created = False
 
@@ -35,7 +35,7 @@ class Suite(Collection):
     def tap(self) -> str:
         ret_data = "TAP version 14\n"
         ret_data += f"1..{len(self._tests)} - {self.name}()"
-        if (self.reason is not None) and 
+        if (self.reason is not None) and \
                 (self.result is not testme.TestResult.ABRT):
             ret_data += f" ({self.reason})"
         ret_data += "\n"
