@@ -11,6 +11,7 @@ from collections.abc import Callable
 import json
 from typing import Any, Optional
 
+
 class Test:
 
     def __init__(self, id:int, name:str, test:Callable, todo:bool=False, 

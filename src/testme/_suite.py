@@ -9,10 +9,21 @@ import testme
 
 from typing import Optional
 
+#: A suite is special type of collection which represents the root of a nested
+#: test collection.
 class Suite(testme.Collection):
 
     created = False
 
+    #: Create a new instance of this class with an optional name and reason.
+    #:
+    #: This is a singleton class. Attempting to create more than one will raise
+    #: TypeError.
+    #:
+    #: If no name is given, the name of the module is used.
+    #:
+    #: The env and indent arguments behave in the same manner as with the
+    #: constructor for the collection class.
     def __init__(self, name:Optional[str]=None, todo:bool=False, 
             reason:Optional[str]=None, env:Optional[dict]=None, 
             indent:int=4) -> None:
@@ -24,13 +35,17 @@ class Suite(testme.Collection):
         self._abort = False
         Suite.created = True
 
+    #: The string representation of this class is a human-readable summary
+    #: of the test suite.
     def __repr__(self) -> str:
         return super().__repr__()[:-1]
 
+    #: Indicates whether or not this test-suite was aborted. Read-only.
     @property
     def abort(self) -> bool:
         return self._abort
 
+    #: An entire TAP14 compliant document generated from this test-suite.
     @property
     def tap(self) -> str:
         ret_data = "TAP version 14\n"
@@ -45,6 +60,10 @@ class Suite(testme.Collection):
                 return ret_data[:-1]
         return ret_data[:-1]
 
+    #: Run this test suite. Every test and colleciton will be run recursively.
+    #: Any test failure will cause the result of this test suite to be fail;
+    #: otherwise it is a pass (unless the entire suite is marked todo, in
+    #: which case it will remain todo).
     def run(self) -> testme.TestResult:
         if self._ran:
             raise RuntimeException("Test suite already run")

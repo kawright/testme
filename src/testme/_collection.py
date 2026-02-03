@@ -19,8 +19,8 @@ class Collection(testme.Test):
     
     #: Create a new collection with a given id and name, and optional reason.
     #:
-    #: When todo is true, the entire collection will be given the todo status, 
-    #: meaning all of its tests will also be marked todo.
+    #: When todo is true, the collection will be given the todo status. This
+    #: affects only the collection itself, not the tests it does/will contain.
     #:
     #: Pass a mapping of keywords-to-values to env in order to pass them in as 
     #: keyword-arguments to each test run in this collection.
@@ -314,7 +314,7 @@ class Collection(testme.Test):
     #: Run this test collection. Each test/collection will be run in the order
     #: they were added. If any test fails, this collection will be marked as a
     #: fail; otherwise it is a pass (unless the collection is marked todo, in
-    #: which case the status of the test will remain todo).
+    #: which case it  will remain todo).
     def run(self) -> testme.TestResult:
         if self._ran:
             raise RuntimeError("Test collection already run")
