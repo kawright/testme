@@ -1,8 +1,8 @@
 .. _quick-guide:
 
-########################
-``testme`` - Quick Guide
-########################
+###################
+testme  Quick Guide
+###################
 
 :py:mod:`testme` is a test framework that strives to minimize the syntax needed to
 write complete tests while maintaining a robust set of features. 
