@@ -147,8 +147,6 @@ class Collection(testme.Test):
                 ret_data += 1
         return ret_data
 
-    #: A dictionary representation of this collection. Schematically identical
-    #: to the output of the json property. Read-only.
     @property
     def dict(self) -> str:
         ret_data = super().dict

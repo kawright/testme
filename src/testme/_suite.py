@@ -7,6 +7,7 @@
 
 import testme
 
+import __main__
 from typing import Optional
 
 #: A suite is special type of collection which represents the root of a nested

@@ -1,2 +1,12 @@
-.*.swp
+# Documentation
+
+doc/build
+
+# Python
+
 __pycache__
+venv
+
+# VIM
+
+.*.swp
