@@ -1,0 +1,8 @@
+[theme]
+inherit = "basic"
+stylesheets = [
+    "style.css",
+]
+# Style names from https://pygments.org/styles/
+# pygments_style = { default = "style_name", dark = "dark_style" }
+

@@ -30,25 +30,10 @@ exclude_patterns = []
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-html_theme = 'classic'
+html_theme = 'kwdevtheme'
+html_theme_path = ['../theme']
 html_theme_options = {
-    "bgcolor": "Ivory",
-    "headbgcolor": "AntiqueWhite",
-    "sidebarbgcolor": "#400000",
-    "sidebartextcolor": "Ivory",
-    "sidebarlinkcolor": "Ivory",
-    "footerbgcolor": "#300000",
-    "footertextcolor": "Ivory",
-    "relbarbgcolor": "#300000",
-    "relbartextcolor": "Ivory",
-    "linkcolor": "#A00000",
-    "visitedlinkcolor": "#600080",
-    "bodyfont": "Garamond",
-    "headfont": "Georgia",
-    "headtextcolor": "#400000",
-    "headlinkcolor": "#400000",
-    "codebgcolor": "MistyRose",
-    "codetextcolor": "Black"
+    "globaltoc_maxdepth": 1
 }
-html_static_path = ['_static']
+# html_static_path = ['_static']
 pygments_style = "gruvbox-light"
