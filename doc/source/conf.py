@@ -36,4 +36,4 @@ html_theme_options = {
     "globaltoc_maxdepth": 1
 }
 # html_static_path = ['_static']
-pygments_style = "gruvbox-light"
+pygments_style = "bw"

@@ -15,11 +15,14 @@ body {
 div.document {
     display: grid;
     grid-template-columns: 80% 20%;
-    background-color: Ivory;
+    background-color: WhiteSmoke;
 }
 
 /* Sidebar */
 div.document > div.sphinxsidebar {
+    border-left-style: solid;
+    border-left-color: DarkGray;
+    border-left-width: 1.5em;
     display: block;
     h1,
     h2,
@@ -28,13 +31,13 @@ div.document > div.sphinxsidebar {
         font-family: "Helvetica", sans-serif;
     }
     font-family: "Helvetica", sans-serif;
-    background-color: Firebrick;
-    color: Ivory;
+    background-color: Gainsboro;
+    color: Black;
     a {
-        color: Ivory;
+        color: DarkSlateGray;
     }
     a:visited {
-        color: AntiqueWhite;
+        color: DarkSlateGray;
     }
     font-size: medium;
     padding-left: 2em;
@@ -50,16 +53,18 @@ div.document > div.sphinxsidebar {
 }
 
 .highlight {
-    margin-left: 4.5em;
-    margin-right: 4.5em;
+    margin-left: 8em;
+    margin-right: 8em;
+    margin-bottom: 2.5em;
     border-style: solid;
     border-width: 0.2em;
-    border-color: LightPink;
+    border-color: Plum;
+    filter: drop-shadow(Indigo 6px 6px 3px);
 }
 
 /* Code Blocks */
 .highlight > pre {
-    background-color: MistyRose;
+    background-color: Lavender;
     padding: 1em;
     margin: 0px;
 }
@@ -67,22 +72,31 @@ div.document > div.sphinxsidebar {
 /* Document Bodywrapper */
 div.document > div.documentwrapper {
     display: block;
-    h1,
-    h2,
-    h3,
-    h4 {
+    h2 {
+        padding-left: 4px;
+        border-bottom-style: solid;
+        border-bottom-width: 3px;
+        border-bottom-color: ;
         font-family: "Helvetica", sans-serif;
     }
+    h3,
+    h4 {
+        padding-left: 4px;
+        font-family: "Helvetica", sans-serif;
+
+    }
     h1 {
+        padding-left: 0px;
         text-align: center;
-        font-family: "Georgia", serif;
-        color: Maroon;
+        font-family: "Arial", sans-serif;
+        color: Black;
         font-size: 3.5em;
         letter-spacing: .02em;
         margin-top: .3em;
-        margin-bottom: .3em;
+        margin-bottom: .6em;
+        font-weight: 1000;
     }
-    font-family: "Times New Roman", serif;
+    font-family: "Arial", sans-serif;
     margin-left: 5%;
     margin-right: 5%;
     ul {
@@ -114,7 +128,7 @@ div.document > div.documentwrapper {
         margin-left: 2em
     }
     dd > p {
-        margin-top: .3em;
+        margin-top: .8em;
         margin-left: 0px;
         mergin-right: 0px;
     }
@@ -131,17 +145,17 @@ div.document > div.documentwrapper {
         padding-right: 1em;
         padding-top: .5em;
         padding-bottom: .5em;
-        background-color: AntiqueWhite;
+        background-color: Gainsboro;
         font-style: italic;
         border-left-style: solid;
         border-left-width: .5em;
-        border-left-color: DarkRed;
+        border-left-color: LimeGreen;
     }
     a {
-        color: Crimson;
+        color: DarkSlateGray;
     }
     a:visited {
-        color: Maroon;
+        color: DarkSlateGray;
     }
 }
 
@@ -151,12 +165,12 @@ div.related {
     h2,
     h3,
     h4 {
-        font-family: "Georgia", serif;
+        font-family: "Helvetica", sans-serif;
     }
     font-family: "Arial", sans-serif;
     font-size: medium;
-    background-color: Maroon;
-    color: Ivory;
+    background-color: Indigo;
+    color: WhiteSmoke;
     padding-left: 1em;
     padding-top: 1em;
     padding-bottom: 1em;
@@ -170,11 +184,12 @@ div.related {
         display: inline
     }
     a {
-        color: Ivory;
+        color: WhiteSmoke;
     }
     a:visited {
-        color: AntiqueWhite;
+        color: Gainsboro;
     }
+    filter: drop-shadow(Black 6px 6px 3px);
 }
 div.related > ul > .nav-item-this {
     font-weight: bold;
@@ -185,15 +200,17 @@ div.related > ul > .nav-item-this {
     font-size: small;
     font-style: italic;
     text-align: center;
-    color: Ivory;
-    background-color: Maroon;
+    color: Black;
+    background-color: FloralWhite;
     a {
-        color: Ivory;
+        color: DarkSlateGray;
     }
     a:visited {
-        color: AntiqueWhite;
+        color: DarkSlateGray;
     }
-    padding-bottom: .3em;
+    padding-top: 1em;
+    padding-bottom: .5em;
+    margin-top: .5em;
 }
 
 /* Signatures */
@@ -209,6 +226,7 @@ div.related > ul > .nav-item-this {
     border-style: solid;
     border-width: .2em;
     border-color: Gainsboro;
+    filter: drop-shadow(DarkGray 6px 6px 3px);
 }
 .sig > .sig-name {
     font-weight: bold;
