@@ -1,14 +1,12 @@
+/*
+ * kwdevtheme - official theme for kwdev.org documentation pages
+ *
+ * kwdevtheme.purple_light.css 
+ */ 
+
 /* Body */
 body {
     margin: 0px;
-}
-
-/* Header Links */
-.headerlink {
-    visibility: hidden;
-}
-.headerlink:hover {
-    visibility: visible;
 }
 
 /* Document Root */
@@ -21,7 +19,7 @@ div.document {
 /* Sidebar */
 div.document > div.sphinxsidebar {
     border-left-style: solid;
-    border-left-color: DarkGray;
+    border-left-color: Silver;
     border-left-width: 1.5em;
     display: block;
     h1,
@@ -42,7 +40,7 @@ div.document > div.sphinxsidebar {
     font-size: medium;
     padding-left: 2em;
     padding-right: 2em;
-    paddding-top: 1em;
+    padding-top: 2em;
     div > ul > li > ul > li > ul > li {           /* Hide TOC levels after 2 */
         visibility: hidden;
         display: none;
@@ -52,6 +50,7 @@ div.document > div.sphinxsidebar {
     }
 }
 
+/* Code Block */
 .highlight {
     margin-left: 8em;
     margin-right: 8em;
@@ -61,26 +60,25 @@ div.document > div.sphinxsidebar {
     border-color: Plum;
     filter: drop-shadow(Indigo 6px 6px 3px);
 }
-
-/* Code Blocks */
 .highlight > pre {
     background-color: Lavender;
     padding: 1em;
     margin: 0px;
 }
 
-/* Document Bodywrapper */
+/* Bodywrapper */
 div.document > div.documentwrapper {
     display: block;
     h2 {
         padding-left: 4px;
         border-bottom-style: solid;
         border-bottom-width: 3px;
-        border-bottom-color: ;
+        border-bottom-color: Purple;
         font-family: "Helvetica", sans-serif;
     }
     h3,
     h4 {
+        font-style: italic;
         padding-left: 4px;
         font-family: "Helvetica", sans-serif;
 
@@ -89,18 +87,23 @@ div.document > div.documentwrapper {
         padding-left: 0px;
         text-align: center;
         font-family: "Arial", sans-serif;
-        color: Black;
+        color: DarkViolet;
         font-size: 3.5em;
         letter-spacing: .02em;
-        margin-top: .3em;
+        margin-top: .8em;
         margin-bottom: .6em;
         font-weight: 1000;
+        text-shadow: 3px 3px 5px Black;
     }
     font-family: "Arial", sans-serif;
     margin-left: 5%;
     margin-right: 5%;
     ul {
         padding-left: 10px;
+    }
+    code.docutils.literal.notranslate {
+        font-size: large;
+        font-style: italic;
     }
     p {
         margin-left: 5%;
@@ -138,9 +141,12 @@ div.document > div.documentwrapper {
         margin-left: 7%;
         margin-right: 7%;
     }
+    .versionadded {
+        margin-top: 1.6em;
+        margin-bottom: 1.6em;
+    }
     .added {
         text-align: center;
-        margin-left: 2em;
         padding-left: 1em;
         padding-right: 1em;
         padding-top: .5em;
@@ -150,6 +156,7 @@ div.document > div.documentwrapper {
         border-left-style: solid;
         border-left-width: .5em;
         border-left-color: LimeGreen;
+        filter: drop-shadow(DarkGray 4px 4px 2px);
     }
     a {
         color: DarkSlateGray;
@@ -232,9 +239,29 @@ div.related > ul > .nav-item-this {
     font-weight: bold;
 }
 
+/* Blank Space */
 div.clearer {
     visibility: hidden;
     display: none;
     max-height: 0px;
     min-height: 0px;
+}
+
+/* Anchor Links */
+a.headerlink {
+    padding-left: 0.3em;
+    opacity: 0;
+    color: purple;
+    text-decoration: none;
+    font-style: normal;
+    transition-property: opacity;
+    transition-duration: 0.25s;
+    transition-behavior: allow-discrete;
+        
+}
+a.headerlink:hover {
+    opacity: 1;
+    transition-property: opacity;
+    transition-duration: 0.25s;
+    transition-behavior: allow-discrete;
 }

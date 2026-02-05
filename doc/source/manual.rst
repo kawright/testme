@@ -5,10 +5,10 @@
 testme Reference Manual
 #######################
 
-This document is a complete reference manual for the *testme* library,
+This document is a complete reference manual for the ``testme`` library,
 including all public API members. It is rather comprehensive, and may be
 an overwhelming read for new users. To give these users an easier path to 
-getting their feet wet with *testme*, a :ref:`quick-guide` has been provided.
+getting their feet wet with ``testme``, the :ref:`quick-guide` has been provided.
 
 ****************
 Package Overview
@@ -45,7 +45,7 @@ members are listed alphabetically.
       negative
     * *function* :py:func:`testme.assert_is_negative_infinity` - assert a
       value is negative infinity
-    * *function* :py:func:`testme.assert_is_none` - assert a value is *None* 
+    * *function* :py:func:`testme.assert_is_none` - assert a value is ``None`` 
     * *function* :py:func:`testme.assert_is_not_nan` - assert a value is not
       NaN.
     * *function* :py:func:`testme.assert_is_not_infinity` - assert a value is
@@ -57,7 +57,7 @@ members are listed alphabetically.
     * *function* :py:func:`testme.assert_is_not_negative_infinity` - assert a
       value is not negative infinity
     * *function* :py:func:`testme.assert_is_not_none` - assert a value isn't
-      *None*.
+      ``None``.
     * *function* :py:func:`testme.assert_is_not_positive_infinity` - assert
       a value is not positive infinity
     * *function* :py:func:`testme.assert_is_not_zero` - assert a value isn't
@@ -133,7 +133,7 @@ members are listed alphabetically.
         * *attribute* :py:attr:`testme.Test.skipped`
         * *attribute* :py:attr:`testme.Test.tap`
         * *attribute* :py:attr:`testme.Test.todo`
-        * *run* :py:meth:`testme.Test.run` - run this test
+        * *method* :py:meth:`testme.Test.run` - run this test
         * *method* :py:meth:`testme.Test.skip` - skip this test
 
 *******
@@ -142,8 +142,8 @@ Modules
 
 .. py:module:: testme
 
-*testme*
-==========
+testme
+======
 
 .. version-added:: 0.1.0
 
@@ -165,10 +165,10 @@ boiled-down to a boolean value--and raises :py:exc:`testme.AssertFail` if the
 statement proves `False`. This special exception tells :py:mod:`testme` that a 
 test has failed in an expected manner, and to process it normally (see
 :py:meth:`testme.Test.run` and :py:meth:`testme.Container.run` for more 
-information on failure cases.
+information on failure cases).
 
-All *assert_* functions accept an optional, final keyword argument 
-*reason*, which is a :py:type:`str` that explains why the assertion may have 
+All ``assert_`` functions accept an optional, final keyword argument 
+``reason``, which is a :py:type:`str` that explains why the assertion may have 
 failed. If this is omitted, a default message will be used.
 
 In general, each type of condition :py:mod:`testme` can check for has two
@@ -177,12 +177,79 @@ it.
 
 All assertions are listed below, and are documented in full detail.
 
+assert_contains
+===============
+
+.. version-added:: 0.1.0
+
 .. autofunction:: assert_contains
 
-    Assert that *container* contains *instance*.
+
+    Assert that ``container`` contains ``instance``.
+
+assert_does_not_contain
+=======================
+
+.. version-added:: 0.1.0
 
 .. autofunction:: assert_does_not_contain
 
-    Assert that *container* does not contains *instance*.
+    Assert that ``container`` does not contain ``instance``.
 
+assert_does_not_raise
+=====================
 
+.. version-added:: 0.1.0
+
+.. autofunction:: assert_does_not_raise
+
+    A context manager which asserts that no exception of type ``ex_type`` will
+    be raised during its lifetime.
+
+assert_equals
+=============
+
+.. version-added:: 0.1.0
+
+.. autofunction:: assert_equals
+
+   Assert that the ``left`` and ``right`` arguments are equal.
+
+assert_false
+============
+
+.. version-added:: 0.1.0
+
+.. autofunction:: assert_false
+
+   Assert that the ``expression``.
+
+assert_faster
+=============
+
+.. version-added:: 0.1.0
+
+.. autofunction:: assert_faster
+
+    A context manager which asserts that no more than ``nanos`` number of
+    nanoseconds will elapse before it finishes.
+
+assert_greater_than
+===================
+
+.. version-added:: 0.1.0
+
+.. autofunction:: assert_greater_than
+
+   Assert that the ``left`` argument is greater than or equal to the ``right``
+   argument.
+
+assert_greater_than_or_equal_to
+===============================
+
+.. version-added:: 0.1.0
+
+.. autofunction:: assert_greater_than_or_equal_to
+
+   Assert that the ``left`` argument is greater than or equal to the ``right``
+   argument.
