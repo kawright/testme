@@ -16,7 +16,7 @@ class AssertType(enum.StrEnum):
     EQUALS = enum.auto()
     NOT_EQUALS = enum.auto()
     LESS_THAN = enum.auto()
-    LESS_THAN_OR_EQUAL_TRUE = enum.auto()
+    LESS_THAN_OR_EQUAL_TO = enum.auto()
     GREATER_THAN = enum.auto()
     GREATER_THAN_OR_EQUAL_TO = enum.auto()
     INSTANCE_OF = enum.auto()

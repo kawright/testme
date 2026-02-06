@@ -72,28 +72,43 @@ div.document > div.documentwrapper {
     h2 {
         padding-left: 4px;
         border-bottom-style: solid;
-        border-bottom-width: 3px;
+        border-bottom-width: 5px;
         border-bottom-color: Purple;
         font-family: "Helvetica", sans-serif;
     }
-    h3,
+    h3 {
+        font-style: italic;
+        padding-left: 4px;
+        font-family: "Helvetica", sans-serif;
+
+    }
     h4 {
         font-style: italic;
         padding-left: 4px;
         font-family: "Helvetica", sans-serif;
+        border-bottom-color: Black;
+        border-bottom-style: solid;
+        border-bottom-width: 3px;
 
     }
     h1 {
         padding-left: 0px;
         text-align: center;
         font-family: "Arial", sans-serif;
-        color: DarkViolet;
+        color: Indigo;
         font-size: 3.5em;
         letter-spacing: .02em;
         margin-top: .8em;
         margin-bottom: .6em;
         font-weight: 1000;
-        text-shadow: 3px 3px 5px Black;
+        text-shadow: 2px 2px 4px Black;
+        -webkit-text-stroke: 2px DarkViolet;
+        strong {
+           color: Violet;
+           -webkit-text-stroke: 1px Indigo;
+
+
+        }
     }
     font-family: "Arial", sans-serif;
     margin-left: 5%;
@@ -106,8 +121,8 @@ div.document > div.documentwrapper {
         font-style: italic;
     }
     p {
-        margin-left: 5%;
-        margin-right: 5%;
+        margin-left: 2em;
+        margin-right: 2em;
         line-height: 1.3;
         text-align: justify;
     }
@@ -142,6 +157,9 @@ div.document > div.documentwrapper {
         margin-right: 7%;
     }
     .versionadded {
+        p {
+            margin-left: 
+        }
         margin-top: 1.6em;
         margin-bottom: 1.6em;
     }
@@ -157,6 +175,69 @@ div.document > div.documentwrapper {
         border-left-width: .5em;
         border-left-color: LimeGreen;
         filter: drop-shadow(DarkGray 4px 4px 2px);
+    }
+    .warning {
+        text-align: center;
+        font-style: normal;
+        padding-left: 1em;
+        padding-right: 1em;
+        padding-top: .5em;
+        padding-bottom: .5em;
+        margin-top: 1em;
+        margin-bottom: 2em;
+        background-color: Gainsboro;
+        border-left-style: solid;
+        border-left-width: .5em;
+        border-left-color: Red;
+        filter: drop-shadow(DarkGray 4px 4px 2px);
+        p {
+            margin-left: 2em;
+            margin-right: 0px;
+            margin-top: 0px;
+            margin-bottom: 0px;
+        }
+        .admonition-title {
+            margin-left: 0px;
+            font-weight: bold;
+            margin-bottom: .5em;
+        }
+    }
+    .admonition-just-so-you-know {
+        text-align: center;
+        font-style: normal;
+        padding-left: 1em;
+        padding-right: 1em;
+        padding-top: .5em;
+        padding-bottom: .5em;
+        margin-top: 1em;
+        margin-bottom: 2em;
+        background-color: Gainsboro;
+        border-left-style: solid;
+        border-left-width: .5em;
+        border-left-color: DarkViolet;
+        filter: drop-shadow(DarkGray 4px 4px 2px);
+        p {
+            margin-left: 2em;
+            margin-right: 0px;
+            margin-top: 0px;
+            margin-bottom: 0px;
+        }
+        .admonition-title {
+            margin-left: 0px;
+            font-weight: bold;
+            margin-bottom: .5em;
+        }
+    }
+    dl {
+        margin-right: 0.5em;
+        margin-left: 2em;
+        p {
+            display: block;
+            margin-right: 0.5em;
+        }
+    }
+    dd {
+        display: block flow-root;
     }
     a {
         color: DarkSlateGray;
@@ -225,6 +306,7 @@ div.related > ul > .nav-item-this {
     font-family: monospace;
     font-size: large;
     margin-top: 2em;
+    margin-bottom: .8em;
     padding-left: 1em;
     padding-right: 1em;
     padding-top: .5em;
@@ -237,6 +319,7 @@ div.related > ul > .nav-item-this {
 }
 .sig > .sig-name {
     font-weight: bold;
+    color: DarkViolet;
 }
 
 /* Blank Space */

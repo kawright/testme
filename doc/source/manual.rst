@@ -1,14 +1,15 @@
 .. _reference-manual:
 
 
-#######################
-testme Reference Manual
-#######################
+###############################
+**testme** API Reference Manual
+###############################
 
 This document is a complete reference manual for the ``testme`` library,
 including all public API members. It is rather comprehensive, and may be
 an overwhelming read for new users. To give these users an easier path to 
-getting their feet wet with ``testme``, the :ref:`quick-guide` has been provided.
+getting their feet wet with ``testme``, the :ref:`quick-guide` has been 
+provided.
 
 ****************
 Package Overview
@@ -84,18 +85,18 @@ members are listed alphabetically.
     * *function* :py:func:`testme.assert_true` - assert a value is `True`.
     * *exception* :py:exc:`testme.Abort` - abort an entire suite run
     * *exception* :py:exc:`testme.AssertFail` - signal a test failure
-        * *attribute* :py:attr:`testme.AssertFail.assert_type`
-        * *attribute* :py:attr:`testme.AssertFail.reason`
+        * *property* :py:attr:`testme.AssertFail.assert_type`
+        * *property* :py:attr:`testme.AssertFail.reason`
     * *enum* :py:class:`testme.AssertType` - assertion types
     * *class* :py:class:`testme.Collection` - test collections
-        * *attribute* :py:attr:`testme.Collection.aborted_count`
-        * *attribute* :py:attr:`testme.Collection.dict`
-        * *attribute* :py:attr:`testme.Collection.failed_count`
-        * *attribute* :py:attr:`testme.Collection.passed_count`
-        * *attribute* :py:attr:`testme.Collection.skipped_count`
-        * *attribute* :py:attr:`testme.Collection.tap`
-        * *attribute* :py:attr:`testme.Collection.todo_count`
-        * *attribute* :py:attr:`testme.Collection.waiting_count`
+        * *property* :py:attr:`testme.Collection.aborted_count`
+        * *property* :py:attr:`testme.Collection.dict`
+        * *property* :py:attr:`testme.Collection.failed_count`
+        * *property* :py:attr:`testme.Collection.passed_count`
+        * *property* :py:attr:`testme.Collection.skipped_count`
+        * *property* :py:attr:`testme.Collection.tap`
+        * *property* :py:attr:`testme.Collection.todo_count`
+        * *property* :py:attr:`testme.Collection.waiting_count`
         * *method* :py:meth:`testme.Collection.__len__`
         * *method* :py:meth:`testme.Collection.__next__`
         * *method* :py:meth:`testme.Collection.__repr__`
@@ -115,26 +116,27 @@ members are listed alphabetically.
         * *method* :py:meth:`testme.Collection.todo` - add a todo test using
           decorator syntax
     * *class* :py:class:`testme.Suite` - root collection
-        * *attribute* :py:attr:`testme.Suite.abort`
-        * *attribute* :py:attr:`testme.Suite.tap`
+        * *property* :py:attr:`testme.Suite.abort`
+        * *property* :py:attr:`testme.Suite.tap`
         * *method* :py:attr:`testme.Suite.__repr__`
         * *method* :py:attr:`testme.Suite.run` - run all tests
     * *class* :py:class:`testme.Test` - unit test
-        * *attribute* :py:attr:`testme.Test.dict`
-        * *attribute* :py:attr:`testme.Test.exception`
-        * *attribute* :py:attr:`testme.Test.id`
-        * *attribute* :py:attr:`testme.Test.json`
-        * *attribute* :py:attr:`testme.Test.name`
-        * *attribute* :py:attr:`testme.Test.passed`
-        * *attribute* :py:attr:`testme.Test.ran`
-        * *attribute* :py:attr:`testme.Test.reason`
-        * *attribute* :py:attr:`testme.Test.residue`
-        * *attribute* :py:attr:`testme.Test.result`
-        * *attribute* :py:attr:`testme.Test.skipped`
-        * *attribute* :py:attr:`testme.Test.tap`
-        * *attribute* :py:attr:`testme.Test.todo`
+        * *property* :py:attr:`testme.Test.dict`
+        * *property* :py:attr:`testme.Test.exception`
+        * *property* :py:attr:`testme.Test.id`
+        * *property* :py:attr:`testme.Test.json`
+        * *property* :py:attr:`testme.Test.name`
+        * *property* :py:attr:`testme.Test.passed`
+        * *property* :py:attr:`testme.Test.ran`
+        * *property* :py:attr:`testme.Test.reason`
+        * *property* :py:attr:`testme.Test.residue`
+        * *property* :py:attr:`testme.Test.result`
+        * *property* :py:attr:`testme.Test.skipped`
+        * *property* :py:attr:`testme.Test.tap`
+        * *property* :py:attr:`testme.Test.todo`
         * *method* :py:meth:`testme.Test.run` - run this test
         * *method* :py:meth:`testme.Test.skip` - skip this test
+    * *enum* :py:class:`testme.TestResult` - test result types
 
 *******
 Modules
@@ -222,7 +224,7 @@ assert_false
 
 .. autofunction:: assert_false
 
-   Assert that the ``expression``.
+   Assert that the ``expression`` evaluates to ``False``.
 
 assert_faster
 =============
@@ -253,3 +255,572 @@ assert_greater_than_or_equal_to
 
    Assert that the ``left`` argument is greater than or equal to the ``right``
    argument.
+
+assert_inside_range
+===================
+
+.. version-added:: 0.1.0
+
+.. autofunction:: assert_inside_range
+
+   Assert that ``expression`` is between ``min`` and ``max`` (inclusive).
+
+assert_instance_of
+==================
+
+.. version-added:: 0.1.0
+
+.. autofunction:: assert_instance_of
+
+    Assert that ``instance`` is of type ``comp_type`` or any of its subtypes.
+
+assert_is_infinity
+==================
+
+.. version-added:: 0.1.0
+
+.. autofunction:: assert_is_infinity
+
+   Assert that a floating-point ``expression`` evaluates to infinity (either
+   sign).
+
+assert_is_nan
+=============
+
+.. version-added:: 0.1.0
+
+.. autofunction:: assert_is_nan
+
+   Assert that a floating-point ``expression`` evaluates to NaN.
+
+assert_is_near
+==============
+
+.. version-added:: 0.1.0
+
+.. autofunction:: assert_is_near
+
+   Assert that an ``expression`` is within plus-or-minus ``tolerance`` of a
+   ``target`` value (inclusive).
+
+assert_is_negative
+==================
+
+.. version-added:: 0.1.0
+
+.. autofunction:: assert_is_negative
+
+   Assert that an ``expression`` is negative (i.e. is less than zero, 
+   exclusive).
+
+assert_is_negative_infinity
+===========================
+
+.. version-added:: 0.1.0
+
+.. autofunction:: assert_is_negative_infinity
+
+   Assert that a floating-point ``expression`` is negative infinity.
+
+assert_is_none
+==============
+
+.. version-added:: 0.1.0
+
+.. autofunction:: assert_is_none
+
+   Assert that an ``expression`` evaluates to ``None``.
+
+assert_is_not_nan
+=================
+
+.. version-added:: 0.1.0
+
+.. autofunction:: assert_is_not_nan
+
+   Assert that an ``expression`` evaluates to ``NaN``.
+
+assert_is_not_infinity
+======================
+
+.. version-added:: 0.1.0
+
+.. autofunction:: assert_is_not_infinity
+
+   Assert that an ``expression`` does not evaluate to infinity (neither sign).
+
+assert_is_not_near
+==================
+
+.. version-added:: 0.1.0
+
+.. autofunction:: assert_is_not_near
+
+   Assert that an ``expression`` is not within plus-or-minus ``tolerance`` of
+   a ``target`` value.
+
+assert_is_not_negative
+======================
+
+.. version-added:: 0.1.0
+
+.. autofunction:: assert_is_not_negative
+
+   Assert that an ``expression`` is non-negative.
+
+assert_is_not_negative_infinity
+===============================
+
+.. version-added:: 0.1.0
+
+.. autofunction:: assert_is_not_negative_infinity
+
+   Assert that an ``expression`` does not evaluate not negative infinity.
+
+assert_is_not_none
+==================
+
+.. version-added:: 0.1.0
+
+.. autofunction:: assert_is_not_none
+
+   Assert that an ``expression`` does not evaluate to ``None``.
+
+assert_is_not_positive_infinity
+===============================
+
+.. version-added:: 0.1.0
+
+.. autofunction:: assert_is_not_positive_infinity
+
+   Assert that an ``expression`` does not evaluate to positive infinity.
+
+assert_is_not_zero
+==================
+
+.. version-added:: 0.1.0
+
+.. autofunction:: assert_is_not_zero
+
+   Assert that an ``expression`` does not evaluate to zero.
+
+assert_is_positive
+==================
+
+.. version-added:: 0.1.0
+
+.. autofunction:: assert_is_positive
+
+   Assert that an ``expression`` is positive.
+
+assert_is_positive_infinity
+===========================
+
+.. version-added:: 0.1.0
+
+.. autofunction:: assert_is_positive_infinity
+
+   Assert that an ``expression`` evaluates to positive infinity.
+
+assert_is_zero
+==============
+
+.. version-added:: 0.1.0
+
+.. autofunction:: assert_is_zero
+
+    Assert that an ``expression`` evaluates to zero.
+
+assert_less_than
+================
+
+.. version-added:: 0.1.0
+
+.. autofunction:: assert_less_than
+
+   Assert that the ``left`` argument is less than the ``right`` argument.
+
+assert_less_than_or_equal_to
+============================
+
+.. version-added:: 0.1.0
+
+.. autofunction:: assert_less_than_or_equal_to
+
+   Assert that the ``left`` argument is less than or equal to the ``right``
+   argument.
+
+assert_not_equals
+=================
+
+.. version-added:: 0.1.0
+
+.. autofunction:: assert_not_equals
+
+   Assert that the ``left`` and ``right`` arguments are not equal.
+
+assert_not_instance_of
+======================
+
+.. version-added:: 0.1.0
+
+.. autofunction:: assert_not_instance_of
+
+    Assert that ``instance`` is not of type ``comp_type`` or any of its 
+    subtypes.
+
+assert_outside_range
+====================
+
+.. version-added:: 0.1.0
+
+.. autofunction:: assert_outside_range
+
+   Assert that ``expression`` is not between ``min`` and ``max`` (inclusive).
+
+assert_raises
+=============
+
+.. version-added:: 0.1.0
+
+.. autofunction:: assert_raises
+
+    A context manager which asserts that an exception of type ``ex_type`` will
+    be raised during its lifetime.
+
+assert_slower
+=============
+
+.. version-added:: 0.1.0
+
+.. autofunction:: assert_slower
+
+    A context manager which asserts that no less than ``nanos`` number of
+    nanoseconds will elapse before it finishes.
+
+assert_true
+===========
+
+.. version-added:: 0.1.0
+
+.. autofunction:: assert_true
+
+   Assert that the ``expression`` evaluates to ``True``.
+
+**********
+Exceptions
+**********
+
+All exceptions in the :py:mod:`testme` library are direct subclasses of
+:py:class:`Exception`.
+
+Abort
+=====
+
+.. version-added:: 0.1.0
+
+.. autoexception:: Abort
+
+    Raised by the user to force :py:mod:`testme` to immediately abort the
+    entire test suite run, regardless of how deeply nested the current test
+    might be. Accepts an optional ``reason`` to explain why the test was
+    aborted.
+
+    Abort Methods
+    -------------
+
+    .. automethod:: __repr__
+
+        The string representation of instances of this class is human-readable
+        formatted and contains the ``reason`` if one was given. If 
+        ``Abort.reason`` is ``None``, this will be an empty string.
+
+AssertFail
+==========
+
+.. version-added:: 0.1.0
+
+.. autoexception:: AssertFail
+
+   Raised internally by all ``testme.assert_*`` functions to signal that a
+   controlled test failure has occurred.
+
+   .. warning:: 
+
+      *Do not raise this exception directly!*  Doing so results in undefined 
+      behavior. Instead, allow it to be raised for you whenever an assertion 
+      function fails.
+   
+
+   AssertFail Properties
+   ---------------------
+
+   .. autoproperty:: assert_type
+
+      Indicates the type of assertion function that raised this exception.
+
+   .. autoproperty:: reason
+
+      Contains the ``reason`` emitted from the ``testme.assert_*`` function
+      that raised this exception.
+
+   AssertFail Methods
+   ------------------
+
+   .. automethod:: __repr__
+
+        The string representation of instances of this class is human-readable
+        formatted and contains the :py:attr:`assert_type` and 
+        :py:attr:`reason` properties.
+
+*****
+Enums
+*****
+
+Unless otherwise specified, all enum classes in :py:mod:`testme` are direct
+subclasses of :py:class:`enum.StrEnum`.
+
+AssertType
+==========
+
+.. version-added:: 0.1.0
+
+.. autoclass:: testme.AssertType
+
+   Lists all of the assertion functions defined in :py:mod:`testme`. Used by
+   :py:class:`AssertFail` to indicate the type of assertion that caused the
+   failure.
+
+   AssertType Members
+   ------------------
+
+   .. autoattribute:: testme.AssertType.CONTAINS
+
+   Used by the :py:func:`assert_contains` function when raising 
+   :py:exc:`AssertFail` upon assertion failure.
+
+   .. autoattribute:: testme.AssertType.DOES_NOT_CONTAIN
+
+   Used by the :py:func:`assert_does_not_contain` function when raising
+   :py:exc:`AssertFail` upon assertion failure.
+
+   .. autoattribute:: testme.AssertType.DOES_NOT_RAISE
+
+   Used by the :py:func:`assert_does_not_raise` function when raising
+   :py:exc:`AssertFail` upon assertion failure.
+
+   .. autoattribute:: testme.AssertType.EQUALS
+
+   Used by the :py:func:`assert_equals` function when raising
+   :py:exc:`AssertFail` upon assertion failure.
+
+   .. autoattribute:: testme.AssertType.FALSE
+
+   Used by the :py:func:`assert_false` function when raising
+   :py:exc:`AssertFail` upon assertion failure.
+
+   .. autoattribute:: testme.AssertType.FASTER
+
+   Used by the :py:func:`assert_faster` function when raising
+   :py:exc:`AssertFail` upon assertion failure.
+
+   .. autoattribute:: testme.AssertType.GREATER_THAN
+
+   Used by the :py:func:`assert_greater_than` function when raising
+   :py:exc:`AssertFail` upon assertion failure.
+
+   .. autoattribute:: testme.AssertType.GREATER_THAN_OR_EQUAL_TO
+
+   Used by the :py:func:`assert_greater_than_or_equal_to` function when raising
+   :py:exc:`AssertFail` upon assertion failure.
+
+   .. autoattribute:: testme.AssertType.INSIDE_RANGE
+
+   Used by the :py:func:`assert_inside_range` function when raising
+   :py:exc:`AssertFail` upon assertion failure.
+
+   .. autoattribute:: testme.AssertType.INSTANCE_OF
+
+   Used by the :py:func:`assert_instance_of` function when raising
+   :py:exc:`AssertFail` upon assertion failure.
+
+   .. autoattribute:: testme.AssertType.IS_INFINITY
+
+   Used by the :py:func:`assert_is_infinity` function when raising
+   :py:exc:`AssertFail` upon assertion failure.
+
+   .. autoattribute:: testme.AssertType.IS_NAN
+
+   Used by the :py:func:`assert_is_nan` function when raising
+   :py:exc:`AssertFail` upon assertion failure.
+
+   .. autoattribute:: testme.AssertType.IS_NEAR
+
+   Used by the :py:func:`assert_is_near` function when raising
+   :py:exc:`AssertFail` upon assertion failure.
+
+   .. autoattribute:: testme.AssertType.IS_NEGATIVE
+
+   Used by the :py:func:`assert_is_negative` function when raising
+   :py:exc:`AssertFail` upon assertion failure.
+
+   .. autoattribute:: testme.AssertType.IS_NEGATIVE_INFINITY
+
+   Used by the :py:func:`assert_is_negative_infinity` function when raising
+   :py:exc:`AssertFail` upon assertion failure.
+
+   .. autoattribute:: testme.AssertType.IS_NONE
+
+   Used by the :py:func:`assert_is_none` function when raising
+   :py:exc:`AssertFail` upon assertion failure.
+
+   .. autoattribute:: testme.AssertType.IS_NOT_NAN
+
+   Used by the :py:func:`assert_is_not_nan` function when raising
+   :py:exc:`AssertFail` upon assertion failure.
+
+   .. autoattribute:: testme.AssertType.IS_NOT_INFINITY
+
+   Used by the :py:func:`assert_is_not_infinity` function when raising
+   :py:exc:`AssertFail` upon assertion failure.
+
+   .. autoattribute:: testme.AssertType.IS_NOT_NEAR
+
+   Used by the :py:func:`assert_is_not_near` function when raising
+   :py:exc:`AssertFail` upon assertion failure.
+
+   .. autoattribute:: testme.AssertType.IS_NOT_NEGATIVE
+
+   Used by the :py:func:`assert_is_not_` function when raising
+   :py:exc:`AssertFail` upon assertion failure.
+
+   .. autoattribute:: testme.AssertType.IS_NOT_NEGATIVE_INFINITY
+
+   Used by the :py:func:`assert_is_not_negative_infinity` function when raising
+   :py:exc:`AssertFail` upon assertion failure.
+
+   .. autoattribute:: testme.AssertType.IS_NOT_NONE
+
+   Used by the :py:func:`assert_is_not_none` function when raising
+   :py:exc:`AssertFail` upon assertion failure.
+
+   .. autoattribute:: testme.AssertType.IS_NOT_POSITIVE_INFINITY
+
+   Used by the :py:func:`assert_is_not_positive_infinity` function when raising
+   :py:exc:`AssertFail` upon assertion failure.
+
+   .. autoattribute:: testme.AssertType.IS_NOT_ZERO
+
+   Used by the :py:func:`assert_is_not_zero` function when raising
+   :py:exc:`AssertFail` upon assertion failure.
+
+   .. autoattribute:: testme.AssertType.IS_POSITIVE
+
+   Used by the :py:func:`assert_is_positive` function when raising
+   :py:exc:`AssertFail` upon assertion failure.
+
+   .. autoattribute:: testme.AssertType.IS_POSITIVE_INFINITY
+
+   Used by the :py:func:`assert_is_positive_infinity` function when raising
+   :py:exc:`AssertFail` upon assertion failure.
+
+   .. autoattribute:: testme.AssertType.IS_ZERO
+
+   Used by the :py:func:`assert_is_zero` function when raising
+   :py:exc:`AssertFail` upon assertion failure.
+
+   .. autoattribute:: testme.AssertType.LESS_THAN
+
+   Used by the :py:func:`assert_less_than` function when raising
+   :py:exc:`AssertFail` upon assertion failure.
+
+   .. autoattribute:: testme.AssertType.LESS_THAN_OR_EQUAL_TO
+
+   Used by the :py:func:`assert_less_than_or_equal_to` function when raising
+   :py:exc:`AssertFail` upon assertion failure.
+
+   .. autoattribute:: testme.AssertType.NOT_EQUALS
+
+   Used by the :py:func:`assert_not_equals` function when raising
+   :py:exc:`AssertFail` upon assertion failure.
+
+   .. autoattribute:: testme.AssertType.NOT_INSTANCE_OF
+
+   Used by the :py:func:`assert_not_instance_of` function when raising
+   :py:exc:`AssertFail` upon assertion failure.
+
+   .. autoattribute:: testme.AssertType.OUTSIDE_RANGE
+
+   Used by the :py:func:`assert_outside_range` function when raising
+   :py:exc:`AssertFail` upon assertion failure.
+
+   .. autoattribute:: testme.AssertType.RAISES
+
+   Used by the :py:func:`assert_raises` function when raising
+   :py:exc:`AssertFail` upon assertion failure.
+
+   .. autoattribute:: testme.AssertType.SLOWER
+
+   Used by the :py:func:`assert_slower` function when raising
+   :py:exc:`AssertFail` upon assertion failure.
+
+   .. autoattribute:: testme.AssertType.TRUE
+
+   Used by the :py:func:`assert_true` function when raising
+   :py:exc:`AssertFail` upon assertion failure.
+
+TestResult
+==========
+
+.. version-added:: 0.1.0
+
+.. autoclass:: testme.TestResult
+
+   Lists all of the possible test result values that exist.
+
+   .. autoattribute:: testme.TestResult.FAIL
+
+      The :py:attr:`testme.Test.result` attribute will be this value if the
+      test function raises an exception when it is called by
+      :py:meth:`testme.Test.run`.
+
+   .. autoattribute:: testme.TestResult.PASS
+
+      The :py:attr:`testme.Test.result` attribute will be this value if the
+      test function returns without exception after calling 
+      :py:meth:`testme.Test.run`.
+
+   .. autoattribute:: testme.TestResult.SKIP
+
+      The :py:attr:`testme.Test.result` attribute will be this value if the
+      test was skipped.
+
+   .. autoattribute:: testme.TestResult.TO_DO
+
+      .. admonition:: Just So You Know
+
+         This member has the underscore in the middle of its name to avoid
+         confusing any user scipts grepping for the string "TODO".
+
+      The :py:attr:`testme.Test.result` attribute will be this value if the
+      test is a todo item, regardless of the outcome of
+      :py:func:`testme.Test.run`.
+
+   .. autoattribute:: testme.TestResult.WAIT
+
+      The test is waiting to be run. All instances of `testme.Test` will have
+      this result until it is run.
+
+*******
+Classes
+*******
+
+Collection
+==========
+
+.. version-added:: 0.1.0
+
+.. autoclass:: testme.Collection
+
+   Nested testing is implemented in :py:mod:`testme` through the
+   ``Collection`` class. 

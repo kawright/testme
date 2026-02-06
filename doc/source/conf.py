@@ -37,3 +37,6 @@ html_theme_options = {
 }
 # html_static_path = ['_static']
 pygments_style = "bw"
+
+# AUTODOC CONFIG
+autodoc_inherit_docstrings = False
