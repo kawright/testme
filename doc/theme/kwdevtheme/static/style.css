@@ -199,10 +199,78 @@ div.document > div.documentwrapper {
         padding-bottom: .5em;
         margin-top: 1em;
         margin-bottom: 2em;
+        background-color: LightYellow;
+        border-left-style: solid;
+        border-left-width: 16px;
+        border-left-color: Gold;
+        border-top-style: solid;
+        border-top-width: 1px;
+        border-top-color: Gainsboro;
+        border-bottom-style: solid;
+        border-bottom-width: 1px;
+        border-bottom-color: Gainsboro;
+        border-right-style: solid;
+        border-right-width: 1px;
+        border-right-color: Gainsboro;
+        filter: drop-shadow(DarkGray 4px 4px 2px);
+        p {
+            margin-left: 2em;
+            margin-right: 0px;
+            margin-top: 0px;
+            margin-bottom: .6em;
+        }
+        .admonition-title {
+            margin-left: 0px;
+            font-weight: bold;
+        }
+    }
+    .error {
+        text-align: center;
+        font-style: normal;
+        padding-left: 1em;
+        padding-right: 1em;
+        padding-top: .5em;
+        padding-bottom: .5em;
+        margin-top: 1em;
+        margin-bottom: 2em;
         background-color: MistyRose;
         border-left-style: solid;
         border-left-width: 16px;
         border-left-color: Red;
+        border-top-style: solid;
+        border-top-width: 1px;
+        border-top-color: Gainsboro;
+        border-bottom-style: solid;
+        border-bottom-width: 1px;
+        border-bottom-color: Gainsboro;
+        border-right-style: solid;
+        border-right-width: 1px;
+        border-right-color: Gainsboro;
+        filter: drop-shadow(DarkGray 4px 4px 2px);
+        p {
+            margin-left: 2em;
+            margin-right: 0px;
+            margin-top: 0px;
+            margin-bottom: .6em;
+        }
+        .admonition-title {
+            margin-left: 0px;
+            font-weight: bold;
+        }
+    }
+    .tip {
+        text-align: center;
+        font-style: normal;
+        padding-left: 1em;
+        padding-right: 1em;
+        padding-top: .5em;
+        padding-bottom: .5em;
+        margin-top: 1em;
+        margin-bottom: 2em;
+        background-color: LightCyan;
+        border-left-style: solid;
+        border-left-width: 16px;
+        border-left-color: MediumBlue;
         border-top-style: solid;
         border-top-width: 1px;
         border-top-color: Gainsboro;

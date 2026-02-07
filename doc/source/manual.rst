@@ -90,11 +90,9 @@ members are listed alphabetically.
     * *enum* :py:class:`testme.AssertType` - assertion types
     * *class* :py:class:`testme.Collection` - test collections
         * *property* :py:attr:`testme.Collection.aborted_count`
-        * *property* :py:attr:`testme.Collection.dict`
         * *property* :py:attr:`testme.Collection.failed_count`
         * *property* :py:attr:`testme.Collection.passed_count`
         * *property* :py:attr:`testme.Collection.skipped_count`
-        * *property* :py:attr:`testme.Collection.tap`
         * *property* :py:attr:`testme.Collection.todo_count`
         * *property* :py:attr:`testme.Collection.waiting_count`
         * *method* :py:meth:`testme.Collection.__len__`
@@ -782,6 +780,11 @@ TestResult
    TestResult Members
    ------------------
 
+   .. autoattribute:: testme.TestResult.ABRT
+
+      The :py:attr:`testme.Test.result` attribute will be this value if it
+      was interrupted by `testme.Abort` while it is running.
+
    .. autoattribute:: testme.TestResult.FAIL
 
       The :py:attr:`testme.Test.result` attribute will be this value if the
@@ -858,6 +861,12 @@ Collection
       responsibility for managing unique ``id`` numbers to assign to new
       instances. This class does not track that information.
 
+      Additionally, as of right now there is no canonical way to add a
+      :py:class:`Test` or a :py:class:`Container` to another
+      :py:class:`Container` outside of creating managed instances through
+      methods such as :py:meth:`Container.test`, :py:meth:`Container.container`,
+      etc.
+
       Except in specific cases where you need to load-in the state of a 
       :py:class:`Collection` manually, you should avoid using this constructor 
       directly. Instead, use the :py:meth:`Collection.collection` method to 
@@ -867,7 +876,294 @@ Collection
    Collection Properties
    ---------------------
 
+   .. autoproperty:: aborted_count
+
+      The number of :py:class:`Test` objects in this collection whose ``result``
+      property is :py:attr:`TestResult.ABRT`. Read-only.
+
+   .. autoproperty:: failed_count
+
+      The number of :py:class:`Test` objects in this collection whose ``result``
+      property is :py:attr:`TestResult.FAIL`. Read-only.
+
    .. autoproperty:: passed_count
 
       The number of :py:class:`Test` objects in this collection whose ``result``
       property is :py:attr:`TestResult.PASS`. Read-only.
+
+   .. autoproperty:: skipped_count
+
+      The number of :py:class:`Test` objects in this collection whose ``result``
+      property is :py:attr:`TestResult.SKIP`. Read-only.
+
+   .. autoproperty:: todo_count
+
+      The number of :py:class:`Test` objects in this collection whose ``result``
+      property is :py:attr:`TestResult.TO_DO`. Read-only.
+
+   .. autoproperty:: waiting_count
+
+      The number of :py:class:`Test` objects in this collection whose ``result``
+      property is :py:attr:`TestResult.WAIT`. Read-only.
+
+   Collection Methods
+   ------------------
+
+   .. automethod:: __len__
+
+      Instances of this class have a length equal to the number of 
+      :py:class:`Test` objects they store.
+
+   .. automethod:: __next__
+
+      Successive iterations on instances of this class yield the next
+      :py:class:`Test` object being held.
+
+   .. automethod:: __repr__
+
+      Instances of this class have :py:type:`str` representations which consist
+      of the :py:type:`str` representations of each of its :py:class:`Test`
+      objects joined together with new-line separators, followed by a one-line
+      human-readable summary of the entrire collection.
+
+   .. automethod:: add_test
+
+      Create a new :py:class:`Test` from a given ``func`` and add it to this
+      collection. The name of the new :py:class:`Test` will be set to the name
+      of ``func``, and it may also be given an optional ``reason``.
+
+      The ``reason``, ``todo``, ``call_args``, and ``call_kwargs`` arguments are 
+      passed as-is to the corresponding :py:class:`Test` constructor argument 
+      with the same name. Please see :py:meth:`Test.__init__` for more 
+      information.
+
+   .. automethod:: collection
+
+      Create a new, empty :py:class:`Collection` and add it to this collection.
+      The new :py:class:`Collection` will be added to this collection's
+      namespace under the passed-in name.
+
+      The ``reason``, ``todo``, and ``env`` arguments are passed as-is to the
+      corresponding :py:class:`Collection` constructor with the same name.
+      Please see :py:meth:`Collection.__init__` for more information.
+      
+      The ``inherit_env`` option may be given in order to pass this instance's
+      call-environment on to the new :py:class:`Collection`. This behavior
+      overrides the ``env`` argument.
+
+   .. automethod:: run
+
+      Calls the ``run`` method of each :py:class:`Test` and 
+      :py:class:`Collection` created by this instance in the order they were 
+      created. If set-up and/or tear-down callback functions were assigned using 
+      the :py:meth:`Collection.set_up` and :py:meth:`Collection.tear_down` 
+      methods, they will be called immediately before and after each test is 
+      run, respectively.
+
+      The call-environment for each :py:class:`Test` is also prepared before 
+      calling its :py:meth:`Test.run` method. This is done by combining the 
+      namespace of the call-environment with the :py:class:`Test` object's 
+      ``call_kwargs`` dictionary (see :py:meth:`Test.__init__` for more
+      information). Names from ``call_kwargs`` will override those from the
+      call-environment when collisions are found.
+
+      If any of them
+      fail (i.e. their :py:attr:`Test.result` property is 
+      :py:attr:`TestResult.FAIL`), this
+      instance's :py:attr:`Test.result` property will also be set to 
+      :py:attr:`TestResult.FAIL`. Otherwise, it will be set to
+      :py:attr:`TestResult.PASS`.
+
+      An exception to this rule is made if this instance's 
+      :py:attr:`Test.todo` property is ``True``: In that case, this instanace's 
+      :py:attr:`Test.result` property will be set to :py:attr:`TestResult.TO_DO`
+      regardless of the outcome of the outcome of any of the tests (success
+      is still tracked and stored as the :py:attr:`Test.passed` property; it
+      simply has no bearing on the results of this test collection).
+      
+      Returns the value that was assigned to this instance's
+      :py:attr:`Collection.result` property.
+
+      .. error ::
+
+         You are only allowed to run a :py:class:`Test` once; so, by that token,
+         you are also only allowed to run a :py:class:`Collection` once. Trying
+         a second or subsequent times raises a :py:exc:`RuntimeError`.
+
+   .. automethod:: skip
+
+      Use decorator syntax to mark a function to be created, in the same
+      manner as with :py:meth:`Collection.test`. The only difference is that
+      immediately after the new 
+      :py:class:`Test` is created and added to this instance, its 
+      :py:meth:`Test.skip` method will be called.
+
+      .. warning ::
+
+         The name of this method collides with :py:meth:`Test.skip`, making
+         :py:class:`Collection` and :py:class:`Suite` objects unable to be
+         skipped.
+
+   .. automethod:: set_up
+
+      Use decorator syntax to mark a function to be used for the set-up half
+      of this collection's test-fixture. 
+
+      Immediately before each test in this collection is
+      run, this function will be called with zero arguments.
+
+      The decorated function is returned unaltered.
+
+   .. automethod:: tear_down
+
+      Use decorator syntax to mark a function to be used for the tear-down half
+      of this collection's test-fixture.
+
+      This function will be called immediately after each test in this
+      collection returns from being run. It will be called with zero arguments.
+
+      The decorated function is returned unaltered.
+
+   .. automethod:: test
+
+      Use decorator syntax to create a new :py:class:`Test` object and add it
+      to this :py:class:`Collection`. The assignment of a unique 
+      :py:attr:`Test.id` property is handled internally, and the
+      :py:attr:`Test.name` property is assigned the same value as the name of
+      the decorated function.
+
+      All positional and keyword arguments passed into this decorator will be
+      passed, as given, to the ``call_args`` and ``call_kwargs`` of the
+      new :py:class:`Test` (see :py:meth:`Test.__init__` for more information).
+
+      The decorated function is returned unaltered.
+
+      .. tip ::
+
+         Since this method doesn't alter the decorated function, it is
+         perfectly safe to stack decorator calls with different arguments to
+         very easily create parameterized tests. Just remember
+         that parameterized tests created in this fashion will be processed in
+         the reverse order that they appear in source (i.e. from the bottom,
+         closest to the definition, and working up).
+
+   .. automethod:: test_many
+
+      Use decorator syntax to create multiple tests all at once and add them
+      to this :py:class:`Collection`.
+
+      One :py:class:`Test` will be created for each element in the
+      ``call_tuples`` argument, which is a :py:type:`list` of ``2-tuples``
+      carrying the positional-argument :py:type:`list` and the
+      keyword-argument :py:type:`dict` that will be passed into the decorated
+      function like ``func(*call_tuple[0], **call_tuple[1])``.
+
+      Each new test will be given a unique :py:attr:`Test.id`, but will have
+      the same :py:attr:`Test.name`: the one that is bound to the decorated 
+      function.
+
+   .. automethod:: todo
+
+      Use decorator syntax to mark a function to be created, in the same
+      manner as with :py:meth:`Collection.test`, except giving 
+      ``todo=True`` when calling :py:meth:`Test.__init__`.
+   
+Suite
+=====
+
+.. version-added:: 0.1.0
+
+.. autoclass:: testme.Suite
+
+   A :py:class:`Suite` is a special subclass of :py:class:`Collection` that
+   represents the root collection where all other :py:class:`Test` and
+   :py:class:`Container` objects reside, either directly or indirectly.
+
+   Its constructor accepts an optional ``name`` argument. If omitted, the name 
+   of the module where this constructor is being called will be used instead.
+
+   The ``reason``, ``env``, and ``indent`` arguments behave the same as with
+   their counterpart aruments in ancestor constructors. See
+   :py:meth:`Test.__init__` and :py:meth:`Collection.__init__` for more 
+   information.
+
+   .. error::
+
+      This is a singleton class. Attempting to create more than one instance
+      raises :py:exc:`TypeError`.
+
+   Suite Properties
+   ----------------
+
+   .. autoproperty:: abort
+
+      Indicates whether or not this :py:class:`Suite` was aborted. Read-only.
+
+   Suite Methods
+   -------------
+
+   .. automethod:: __repr__
+
+      An instance's :py:type:`str` representation is a human-readable summary
+      of the entire test suite.
+
+Test
+====
+
+.. version-added:: 0.1.0
+
+.. autoclass:: testme.Test
+
+   A :py:class:`Test` is the smallest unit of concern in the :py:mod:`testme`
+   framework: a single test run.
+
+   At a minimum, the constructor requires a numeric ``id``, a ``name``, and a 
+   callback function which is the logical ``test`` itself. Optionally, a
+   ``reason`` may be given which further explains this test.
+
+   Giving the ``todo`` option marks this :py:class:`Test` as a "todo" item,
+   which means this test should not be expected to pass, and that its outcome
+   will not affect the results of any ancestor :py:class:`Container`.
+
+   Pass a positional-argument :py:type:`list` to ``call_args``, or a
+   keyword-argument :py:type:`dict` to ``call_kwargs`` to pass them to the
+   target function when the :py:meth:`run` method is called.
+
+   The indentation level for formatted representations of this object can be
+   set with ``indent``. This behavior is format-dependent.
+
+   .. warning::
+
+      The developer accepts the
+      responsibility for managing unique ``id`` numbers to assign to new
+      instances. This class does not track that information.
+
+      Additionally, as of right now there is no canonical way to add a
+      :py:class:`Test` to a
+      :py:class:`Container` outside of creating managed instances through
+      methods such as :py:meth:`Container.test`, :py:meth:`Container.add_test`,
+      etc.
+
+      Except in specific cases where you need to load-in the state of a 
+      :py:class:`Test` manually, you should avoid using this constructor 
+      directly. Instead, use the appropriate :py:meth:`Collection` method 
+      for your use case to 
+      create a new instance that is directly managed by the state of a
+      :py:class:`Collection` object.
+
+   Test Properties
+   ---------------
+
+   .. autoproperty:: id
+
+      A unique, numeric identifier for this test. Read-only.
+
+   .. autoproperty:: name
+
+      The name of this test. Read-only.
+
+   .. autoproperty:: skipped
+
+      This property will be ``True`` if :py:meth:`skip` has been called.
+
+   .. autoproperty:: ru

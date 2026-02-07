@@ -204,7 +204,7 @@ class Collection(testme.Test):
     #: constructor).
     def add_test(self, func:Callable, todo:bool=False, 
             reason:Optional[str]=None, call_args:list=[], 
-            call_kwargs:dict={}) -> None:
+            call_kwargs:"dict"={}) -> None:
         name = func.__name__
         test_obj = testme.Test(self._next_child_id, name, func, todo, reason, 
             call_args, call_kwargs)
@@ -221,7 +221,7 @@ class Collection(testme.Test):
     #: call-environment to the new collection. This option overrides the env
     #: argument.
     def collection(self, name:str, todo:bool=False, 
-            reason:Optional[str]=None, env:Optional[dict]=None,
+            reason:Optional[str]=None, env:Optional["dict"]=None,
             inherit_env:bool=False) -> None:
         if inherit_env:
             collection_obj = Collection(self._next_child_id, name, todo, reason,
@@ -256,7 +256,7 @@ class Collection(testme.Test):
     #: carrying the positional-argument list and keyword-argument dictionary
     #: that will be passed into the decorated function for each test run, like
     #: ``func(*call_tuple[0], **call_tuple[1])``.
-    def test_many(self, call_tuples:List[Tuple[list, dict]]) -> Callable:
+    def test_many(self, call_tuples:List[Tuple[list, "dict"]]) -> Callable:
         def wrapper(func:Callable) -> Callable:
             test_name = func.__name__
             for args, kwargs in call_tuples:
@@ -288,7 +288,7 @@ class Collection(testme.Test):
                 None, args, kwargs)
             self._next_child_id += 1
             self._tests.append(test_obj)
-            test_obj.skip(reason)
+            test_obj.skip()
             return func
         return wrapper
 
