@@ -115,9 +115,7 @@ members are listed alphabetically.
           decorator syntax
     * *class* :py:class:`testme.Suite` - root collection
         * *property* :py:attr:`testme.Suite.abort`
-        * *property* :py:attr:`testme.Suite.tap`
         * *method* :py:attr:`testme.Suite.__repr__`
-        * *method* :py:attr:`testme.Suite.run` - run all tests
     * *class* :py:class:`testme.Test` - unit test
         * *property* :py:attr:`testme.Test.dict`
         * *property* :py:attr:`testme.Test.exception`
@@ -1004,6 +1002,11 @@ Collection
          :py:class:`Collection` and :py:class:`Suite` objects unable to be
          skipped.
 
+         This method will be renamed on the next release to ``skip_test()`` to
+         address this issue. The :py:meth:`Collection.todo` method will also
+         be similarly renamed to ``todo_test()`` to maintain consistency in the
+         API.
+
    .. automethod:: set_up
 
       Use decorator syntax to mark a function to be used for the set-up half
@@ -1067,6 +1070,13 @@ Collection
       Use decorator syntax to mark a function to be created, in the same
       manner as with :py:meth:`Collection.test`, except giving 
       ``todo=True`` when calling :py:meth:`Test.__init__`.
+
+      .. warning::
+
+         This method will be renamed on the next release in order to accord
+         with the rename of the :py:meth:`Collection.skip` method to 
+         ``Collection.skip_test``. The future name of this method will
+         be ``todo_test()``
    
 Suite
 =====
@@ -1154,16 +1164,118 @@ Test
    Test Properties
    ---------------
 
+   .. autoproperty:: dict
+
+      A :py:type:`dict` representation of this test. Schematically identical
+      to the output of the :py:attr:`json` property. Read-only.
+
+      .. warning::
+
+         This property will be renamed on the next release to ``dictionary``
+         to avoid colliding with the build-in type :py:type:`dict`.
+
+   .. autoproperty:: exception
+
+      If an unhandled exception is raised during a test run (i.e. any exception 
+      that isn't :py:exc:`AssertFail` or :py:exc:`Abort`), this will property 
+      will contain that exception. Read-only.
+
    .. autoproperty:: id
 
       A unique, numeric identifier for this test. Read-only.
+
+   .. autoproperty:: json
+
+      A json representation of this instance. The value given to the
+      ``indent`` argument of the constructor controls the indentation of the
+      output.
 
    .. autoproperty:: name
 
       The name of this test. Read-only.
 
+   .. autoproperty:: passed
+
+      Will be ``True`` if :py:meth:`run` was called and successfully returned
+      without raising any exception, or ``False`` otherwise. Read-only.
+
+   .. autoproperty:: ran
+
+      Will be ``True`` if :py:meth:`run` has been called, or ``False``
+      otherwise. Read-only.
+
+   .. autoproperty:: reason
+
+      An optional summary of this test. Read-only
+
+   .. autoproperty:: residue
+
+      The data that was returned by the target function when it was called by
+      :py:meth:`run`. This is for reporting purposes only, and has no effect
+      on the outcome of the test.
+
+   .. autoproperty:: result
+
+      Indicates the result of this test run. If :py:meth:`run` has not yet
+      been called, this will be :py:attr:`TestResult.WAIT`.
+
    .. autoproperty:: skipped
 
-      This property will be ``True`` if :py:meth:`skip` has been called.
+      Will be ``True`` if :py:meth:`skip` has been called, or ``False``
+      otherwise. Read-only.
 
-   .. autoproperty:: ru
+   .. autoproperty:: tap
+
+      A TAP14 compliant test-point, body, or document (depending on the
+      possible subclass of the instance) generated from this test.
+
+   .. autoproperty:: todo
+
+      Will be ``True`` if :py:meth:`todo` has been called, or ``False``
+      otherwise. Read-only.
+
+   Test Methods
+   ------------
+
+   .. automethod:: run
+
+      Run this test by calling the target function. If either the ``call_args``
+      or ``call_kwargs`` arguments were given to the constructor, they will
+      be given as the unpacked positional and keyword arguments for the
+      target function call. The return data from this call will be stored as
+      the :py:attr:`residue` property.
+
+      The test will pass and :py:attr:`result` will be set to
+      :py:attr:`TestResult.PASS` unless an exception was raised by the
+      target function, in which case it will be handled as such:
+
+      * If it is an instance of :py:exc:`Abort`, the :py:attr:`result` of this 
+        test will be set to :py:attr:`TestResult.ABRT` and the exception will be
+        reraised to eventually be handled by the root :py:class:`Suite`
+        object.
+      * If it is an instance of :py:exc:`AssertFail`, the :py:attr:`result` of
+        this test will be set to :py:attr:`TestResult.FAIL`. This should be
+        considered a "formal" or "expected" failure by the user.
+      * Otherwise the exception itself is stored as the :py:attr:`exception`
+        property, and processing proceeds as with :py:exc:`AssertFail`. This
+        should be considered an "unexpected" failure by the user.
+
+      If :py:attr:`skipped` is ``True``, the :py:attr:`result` will be updated
+      to :py:attr:`TestResult.SKIP` and this function will immediately return
+      without calling the target function. If :py:attr:`todo` is ``True``, the 
+      test will be run and the outcome recorded via :py:attr:`passed`, but
+      the :py:attr:`result` will be set to :py:attr:`TestResult.TODO` without
+      regard to said outcome.
+
+      Returns the new :py:attr:`result` of the instance.
+
+      .. error::
+
+         A :py:class:`Test` may only be run once. Calling this method a second
+         or subsequent times raises :py:exc:`RuntimeError`.
+
+   .. automethod:: skip
+
+      Skip this test with an optional ``reason``. The target function will
+      not be called when attempting to :py:meth:`run` this test.
+

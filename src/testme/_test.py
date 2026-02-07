@@ -108,7 +108,7 @@ class Test:
 
     #: An optional summary of this test. Read-only.
     @property
-    def reason(self) -> str:
+    def reason(self) -> Optional[str]:
         if not self.ran:
             return None
         return self._reason
@@ -152,6 +152,8 @@ class Test:
             "residue": str(self.residue),
             "subtests": None
         }
+
+    # TODO Implement property Test.indent
 
     #: A json representation of this test. This instance's indent property
     #: is used to set the indentation of this value.
