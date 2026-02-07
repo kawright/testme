@@ -13,7 +13,7 @@ body {
 div.document {
     display: grid;
     grid-template-columns: 80% 20%;
-    background-color: WhiteSmoke;
+    background-color: Snow;
 }
 
 /* Sidebar */
@@ -41,7 +41,7 @@ div.document > div.sphinxsidebar {
     padding-left: 2em;
     padding-right: 2em;
     padding-top: 2em;
-    div > ul > li > ul > li > ul > li {           /* Hide TOC levels after 2 */
+    div > ul > li > ul > li > ul > li {           /* Hide TOC levels after 3 */
         visibility: hidden;
         display: none;
     }
@@ -70,25 +70,28 @@ div.document > div.sphinxsidebar {
 div.document > div.documentwrapper {
     display: block;
     h2 {
+        font-size: xx-large;
         padding-left: 4px;
         border-bottom-style: solid;
         border-bottom-width: 5px;
-        border-bottom-color: Purple;
+        border-bottom-color: DarkViolet;
         font-family: "Helvetica", sans-serif;
     }
     h3 {
+        font-size: x-large;
         font-style: italic;
         padding-left: 4px;
         font-family: "Helvetica", sans-serif;
 
     }
     h4 {
+        font-size: large;
         font-style: italic;
         padding-left: 4px;
         font-family: "Helvetica", sans-serif;
         border-bottom-color: Black;
         border-bottom-style: solid;
-        border-bottom-width: 3px;
+        border-bottom-width: 2px;
 
     }
     h1 {
@@ -102,7 +105,7 @@ div.document > div.documentwrapper {
         margin-bottom: .6em;
         font-weight: 1000;
         text-shadow: 2px 2px 4px Black;
-        -webkit-text-stroke: 2px DarkViolet;
+        -webkit-text-stroke: 1px MidnightBlue;
         strong {
            color: Violet;
            -webkit-text-stroke: 1px Indigo;
@@ -125,6 +128,7 @@ div.document > div.documentwrapper {
         margin-right: 2em;
         line-height: 1.3;
         text-align: justify;
+        font-size: large;
     }
     li {
         p {
@@ -169,12 +173,22 @@ div.document > div.documentwrapper {
         padding-right: 1em;
         padding-top: .5em;
         padding-bottom: .5em;
-        background-color: Gainsboro;
+        background-color: Honeydew;
         font-style: italic;
         border-left-style: solid;
-        border-left-width: .5em;
+        border-left-width: 16px;
         border-left-color: LimeGreen;
+        border-top-style: solid;
+        border-top-width: 1px;
+        border-top-color: Gainsboro;
+        border-bottom-style: solid;
+        border-bottom-width: 1px;
+        border-bottom-color: Gainsboro;
+        border-right-style: solid;
+        border-right-width: 1px;
+        border-right-color: Gainsboro;
         filter: drop-shadow(DarkGray 4px 4px 2px);
+        margin-bottom: .6em;
     }
     .warning {
         text-align: center;
@@ -185,21 +199,29 @@ div.document > div.documentwrapper {
         padding-bottom: .5em;
         margin-top: 1em;
         margin-bottom: 2em;
-        background-color: Gainsboro;
+        background-color: MistyRose;
         border-left-style: solid;
-        border-left-width: .5em;
+        border-left-width: 16px;
         border-left-color: Red;
+        border-top-style: solid;
+        border-top-width: 1px;
+        border-top-color: Gainsboro;
+        border-bottom-style: solid;
+        border-bottom-width: 1px;
+        border-bottom-color: Gainsboro;
+        border-right-style: solid;
+        border-right-width: 1px;
+        border-right-color: Gainsboro;
         filter: drop-shadow(DarkGray 4px 4px 2px);
         p {
             margin-left: 2em;
             margin-right: 0px;
             margin-top: 0px;
-            margin-bottom: 0px;
+            margin-bottom: .6em;
         }
         .admonition-title {
             margin-left: 0px;
             font-weight: bold;
-            margin-bottom: .5em;
         }
     }
     .admonition-just-so-you-know {
@@ -211,21 +233,30 @@ div.document > div.documentwrapper {
         padding-bottom: .5em;
         margin-top: 1em;
         margin-bottom: 2em;
-        background-color: Gainsboro;
+        background-color: Lavender;
         border-left-style: solid;
-        border-left-width: .5em;
+        border-left-width: 16px;
         border-left-color: DarkViolet;
+        border-top-style: solid;
+        border-top-width: 1px;
+        border-top-color: Gainsboro;
+        border-bottom-style: solid;
+        border-bottom-width: 1px;
+        border-bottom-color: Gainsboro;
+        border-right-style: solid;
+        border-right-width: 1px;
+        border-right-color: Gainsboro;
+         
         filter: drop-shadow(DarkGray 4px 4px 2px);
         p {
             margin-left: 2em;
             margin-right: 0px;
             margin-top: 0px;
-            margin-bottom: 0px;
+            margin-bottom: .6em;
         }
         .admonition-title {
             margin-left: 0px;
             font-weight: bold;
-            margin-bottom: .5em;
         }
     }
     dl {
@@ -289,7 +320,7 @@ div.related > ul > .nav-item-this {
     font-style: italic;
     text-align: center;
     color: Black;
-    background-color: FloralWhite;
+    background-color: Snow;
     a {
         color: DarkSlateGray;
     }

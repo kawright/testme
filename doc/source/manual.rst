@@ -558,11 +558,12 @@ AssertFail
    .. autoproperty:: assert_type
 
       Indicates the type of assertion function that raised this exception.
+      Read-only.
 
    .. autoproperty:: reason
 
       Contains the ``reason`` emitted from the ``testme.assert_*`` function
-      that raised this exception.
+      that raised this exception. Read-only.
 
    AssertFail Methods
    ------------------
@@ -778,6 +779,9 @@ TestResult
 
    Lists all of the possible test result values that exist.
 
+   TestResult Members
+   ------------------
+
    .. autoattribute:: testme.TestResult.FAIL
 
       The :py:attr:`testme.Test.result` attribute will be this value if the
@@ -822,5 +826,48 @@ Collection
 
 .. autoclass:: testme.Collection
 
-   Nested testing is implemented in :py:mod:`testme` through the
-   ``Collection`` class. 
+   Nested testing is implemented in :py:mod:`testme` through the ``Collection`` 
+   class.
+
+   This :py:mod:`Test` subclass is modified such that its notion of a
+   test is a :py:mod:`list` of :py:class:`Test` objects, rather than a single
+   :py:class:`Callable`.
+
+   Like with the constructor for :py:class:`Test`, this constructor accepts
+   mandatory numeric ``id`` and ``name`` arguments and optional ``indent``
+   arguments. These arguments behave in the same manner as with their
+   ancestor's counterparts. Please see :py:meth:`Test.__init__` for more
+   information.
+
+   The ``env`` argument creates a calling environment for the tests in this
+   collection. Every name-to-argument mapping in this :py:type:`dict` will
+   be passed into the test function of *each* :py:class:`Test` as they are
+   run. If any ``call_kwargs`` are assigned to a :py:class:`Test`, they will be 
+   added to the environment before passing the new environment into the
+   :py:class:`Test` object's test function. Names from a :py:class:`Test`
+   object's ``call_kwargs`` override those in ``env`` where collisions occur.
+   See :py:meth:`Collection.run` for more information.
+
+   This class satisfies both the *iterator* and *length* interfaces. See
+   :py:meth:`Collection.__len__` and :py:meth:`Collection.__next` for more
+   information.
+
+   .. warning::
+
+      Like with the constructor for :py:class:`Test`, the developer accepts the
+      responsibility for managing unique ``id`` numbers to assign to new
+      instances. This class does not track that information.
+
+      Except in specific cases where you need to load-in the state of a 
+      :py:class:`Collection` manually, you should avoid using this constructor 
+      directly. Instead, use the :py:meth:`Collection.collection` method to 
+      create a new instance that is directly managed by the state of a parent 
+      :py:class:`Collection`.
+
+   Collection Properties
+   ---------------------
+
+   .. autoproperty:: passed_count
+
+      The number of :py:class:`Test` objects in this collection whose ``result``
+      property is :py:attr:`TestResult.PASS`. Read-only.
